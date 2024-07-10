@@ -2,6 +2,7 @@
 using EmployeeDetails.Web.Models.Entities;
 using EmployeeDetails.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeDetails.Web.Controllers
 {
@@ -21,7 +22,7 @@ namespace EmployeeDetails.Web.Controllers
             {
                 var employee = new Employee
                 {
-                    Id= viewModel.Id,
+                    EmployeeId=viewModel.Id,
                     Name = viewModel.Name,
                     Designation=viewModel.Designation,
                     Email = viewModel.Email,
@@ -34,7 +35,13 @@ namespace EmployeeDetails.Web.Controllers
                 await dbContest.SaveChangesAsync();
                 return View();
             }
+        [HttpGet]
+        public async Task<IActionResult> List()
+        {
+            var employees = await dbContest.Employees.ToListAsync();
+            return View(employees);
         }
+    }
 
         
     }
