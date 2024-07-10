@@ -1,15 +1,28 @@
-﻿namespace EmployeeDetails.Web.Models
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+
+namespace EmployeeDetails.Web.Models
 {
     public class AddEmployeeViewModel
     {
-        public int Id { get; set; }
+        [BindProperty]
+        public string EmployeeId { get; set; }
+        [BindProperty]
+        [Required(ErrorMessage ="Enter name:")]
+        public string Name { get; set; } = "";
+        [BindProperty]
+        public string Designation { get; set; } = "";
+        [BindProperty]
+        public string Email { get; set; } = "";
+        [BindProperty]
 
-        public string Name { get; set; }
-        public string Designation { get; set; }
-        public string Email { get; set; }
+        public string Phone { get; set; } = "";
+        [BindProperty]
+        public string Address { get; set; } = "";
 
-        public string Phone { get; set; }
-        public string Address { get; set; }
+        
+
+
 
     }
 }

@@ -8,7 +8,6 @@ namespace EmployeeDetails.Web.Controllers
 {
     public class EmployeeController : Controller
     {
-
         private readonly ApplicationDbContext dbContest;
         public EmployeeController(ApplicationDbContext dbContext)
         {
@@ -22,18 +21,17 @@ namespace EmployeeDetails.Web.Controllers
         {
             var employee = new Employee
             {
-                EmployeeId = viewModel.Id,
+                EmployeeId= viewModel.EmployeeId,
                 Name = viewModel.Name,
-                Designation = viewModel.Designation,
+                Designation=viewModel.Designation,
                 Email = viewModel.Email,
                 Phone = viewModel.Phone,
                 Address = viewModel.Address,
-
-
+                
             };
             await dbContest.Employees.AddAsync(employee);
             await dbContest.SaveChangesAsync();
-            return RedirectToAction("Add", "Employee");
+            return View();
         }
         [HttpGet]
         public async Task<IActionResult> List()
@@ -55,7 +53,9 @@ namespace EmployeeDetails.Web.Controllers
             var employees = await dbContest.Employees.FindAsync(viewModel.Id);
             if (employees is not null)
             {
+                employees.EmployeeId = viewModel.EmployeeId;
                 employees.Name = viewModel.Name;
+                employees.Designation = viewModel.Designation;
                 employees.Email = viewModel.Email;
                 employees.Phone = viewModel.Phone;
                 employees.Address = viewModel.Address;
@@ -63,7 +63,6 @@ namespace EmployeeDetails.Web.Controllers
             }
             return RedirectToAction("List", "Employee");
         }
-    
         [HttpPost]
         public async Task<IActionResult> Delete(Employee viewModel)
         {
@@ -72,13 +71,12 @@ namespace EmployeeDetails.Web.Controllers
             {
                 dbContest.Employees.Remove(viewModel);
                 await dbContest.SaveChangesAsync();
+
             }
             return RedirectToAction("List", "Employee");
-
-
-
         }
     }
+
 
 
 }
