@@ -8,32 +8,32 @@ namespace EmployeeDetails.Web.Controllers
 {
     public class EmployeeController : Controller
     {
-       
-            private readonly ApplicationDbContext dbContest;
-            public EmployeeController(ApplicationDbContext dbContext)
-            {
-                this.dbContest = dbContext;
 
-            }
-            [HttpGet]
-            public IActionResult Add() => View();
-            [HttpPost]
-            public async Task<IActionResult> Add(AddEmployeeViewModel viewModel)
-            {
-                var employee = new Employee
-                {
-                    EmployeeId=viewModel.Id,
-                    Name = viewModel.Name,
-                    Designation=viewModel.Designation,
-                    Email = viewModel.Email,
-                    Phone = viewModel.Phone,
-                    Address = viewModel.Address,
-                    
+        private readonly ApplicationDbContext dbContest;
+        public EmployeeController(ApplicationDbContext dbContext)
+        {
+            this.dbContest = dbContext;
 
-                };
-                await dbContest.Employees.AddAsync(employee);
-                await dbContest.SaveChangesAsync();
-                return RedirectToAction("Add", "Employee");
+        }
+        [HttpGet]
+        public IActionResult Add() => View();
+        [HttpPost]
+        public async Task<IActionResult> Add(AddEmployeeViewModel viewModel)
+        {
+            var employee = new Employee
+            {
+                EmployeeId = viewModel.Id,
+                Name = viewModel.Name,
+                Designation = viewModel.Designation,
+                Email = viewModel.Email,
+                Phone = viewModel.Phone,
+                Address = viewModel.Address,
+
+
+            };
+            await dbContest.Employees.AddAsync(employee);
+            await dbContest.SaveChangesAsync();
+            return RedirectToAction("Add", "Employee");
         }
         [HttpGet]
         public async Task<IActionResult> List()
@@ -63,6 +63,7 @@ namespace EmployeeDetails.Web.Controllers
             }
             return RedirectToAction("List", "Employee");
         }
+    
         [HttpPost]
         public async Task<IActionResult> Delete(Employee viewModel)
         {
@@ -71,13 +72,12 @@ namespace EmployeeDetails.Web.Controllers
             {
                 dbContest.Employees.Remove(viewModel);
                 await dbContest.SaveChangesAsync();
-
             }
             return RedirectToAction("List", "Employee");
+
+
+
         }
-
-
-
     }
 
 
