@@ -33,8 +33,8 @@ namespace EmployeeDetails.Web.Controllers
                 };
                 await dbContest.Employees.AddAsync(employee);
                 await dbContest.SaveChangesAsync();
-                return View();
-            }
+                return RedirectToAction("Add", "Employee");
+        }
         [HttpGet]
         public async Task<IActionResult> List()
         {
@@ -60,6 +60,18 @@ namespace EmployeeDetails.Web.Controllers
                 employees.Phone = viewModel.Phone;
                 employees.Address = viewModel.Address;
                 await dbContest.SaveChangesAsync();
+            }
+            return RedirectToAction("List", "Employee");
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(Employee viewModel)
+        {
+            var employees = await dbContest.Employees.AsNoTracking().FirstOrDefaultAsync(x => x.Id == viewModel.Id);
+            if (employees is not null)
+            {
+                dbContest.Employees.Remove(viewModel);
+                await dbContest.SaveChangesAsync();
+
             }
             return RedirectToAction("List", "Employee");
         }
